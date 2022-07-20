@@ -78,7 +78,7 @@ class MainActivity : AppCompatActivity() {
 
                     }
                 }
-                "*"->{
+                "x"->{
                     //TIMES FOR INTEGERS
                     if(number1ConvertedInt != null && number2ConvertedInt != null){
                         return number1ConvertedInt!! * number2ConvertedInt!!
@@ -154,7 +154,7 @@ class MainActivity : AppCompatActivity() {
                 findRightDataType(number1,number2)
                 txtResult.text=calculate()?.toString()?:"ERROR"
             }
-            "*" -> {
+            "x" -> {
                 numbersString = Pattern.compile("x").split(txtResult.text)
                 number1 = numbersString[0]
                 number2 = numbersString[1]
@@ -279,7 +279,7 @@ class MainActivity : AppCompatActivity() {
                                 }else{txtResult.text="${txtResult.text}${btn_operations[i].text}"}
                             }
                             "x" ->{
-                                this.currentOp="*"
+                                this.currentOp="x"
                                 if(txtResult.text.contains("+") || txtResult.text.contains("-") ||txtResult.text.contains("x") || txtResult.text.contains("/") ){
                                     calculateResult(true)
                                 }else{txtResult.text="${txtResult.text}${btn_operations[i].text}"}
@@ -288,6 +288,7 @@ class MainActivity : AppCompatActivity() {
                                 this.currentOp="/"
                                 if(txtResult.text.contains("+") || txtResult.text.contains("-") ||txtResult.text.contains("x") || txtResult.text.contains("/") ){
                                     calculateResult(true)
+
                                 }else{txtResult.text="${txtResult.text}${btn_operations[i].text}"}
 
                             }
