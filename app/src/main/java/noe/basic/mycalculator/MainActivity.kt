@@ -20,6 +20,12 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         initializeView()
     }
+    private fun isForcingOperation(i:Int){
+        if(txtResult.text.contains("+") || txtResult.text.contains("-") ||txtResult.text.contains("x") || txtResult.text.contains("/") ){
+            calculateResult(true)
+        }else{txtResult.text="${txtResult.text}${btn_operations[i].text}"}
+    }
+
     private fun isLastCharacterAnOperation():Boolean{
         var ableToAdd :Boolean = true
         for (op in btn_operations.subList(0,4)){
@@ -29,145 +35,150 @@ class MainActivity : AppCompatActivity() {
         }
         return ableToAdd
     }
+    private fun settingStringNumbers(arr:Array<String>){
+        lateinit var number1 :String
+        lateinit var number2 :String
+        number1 = arr[0]
+        number2 = arr[1]
+        findRightDataType(number1,number2)
+        treatResult()
+    }
     private fun calculate() : Number?{
-        if(number1ConvertedInt !=0 && number2ConvertedInt != 0 && number1ConvertedDouble !=0.0 && number2ConvertedDouble != 0.0){
             when(this.currentOp){
                 "+"->{
                     //ADDITION FOR INTEGERS
                     if(number1ConvertedInt != null && number2ConvertedInt != null){
-                        return number1ConvertedInt!! + number2ConvertedInt!!
-
+                       val result :Int=  number1ConvertedInt!! + number2ConvertedInt!!
+                        return result
                     }
                     //ADDITION FOR Doubles
                     if(number1ConvertedDouble != null && number2ConvertedDouble != null){
-                        return number1ConvertedDouble!! + number2ConvertedDouble!!
-
+                       val result :Double =  number1ConvertedDouble!! + number2ConvertedDouble!!
+                        return result
                     }
 
                     //ADDITION FOR num1Doub and num2Int
                     if(number1ConvertedDouble != null && number2ConvertedInt != null){
-                        return number1ConvertedDouble!! + number2ConvertedInt!!
-
+                       val result :Double =  number1ConvertedDouble!! + number2ConvertedInt!!.toDouble()
+                        return result
                     }
                     //ADDITION FOR num1Int and num2Double
                     if(number1ConvertedInt != null && number2ConvertedDouble != null){
-                        return number1ConvertedInt!! + number2ConvertedDouble!!
-
+                       val result :Double =  number1ConvertedInt!!.toDouble() + number2ConvertedDouble!!
+                        return result
                     }
                 }
                 "-" -> {
                     //SUBTRACTION FOR INTEGERS
                     if(number1ConvertedInt != null && number2ConvertedInt != null){
-                        return number1ConvertedInt!! - number2ConvertedInt!!
-
+                       val result :Int =  number1ConvertedInt!! - number2ConvertedInt!!
+                        return result
                     }
                     //SUBTRACTION FOR Doubles
                     if(number1ConvertedDouble != null && number2ConvertedDouble != null){
-                        return number1ConvertedDouble!! - number2ConvertedDouble!!
-
+                       val result :Double =  number1ConvertedDouble!! - number2ConvertedDouble!!
+                        return result
                     }
 
                     //SUBTRACTION FOR num1Doub and num2Int
                     if(number1ConvertedDouble != null && number2ConvertedInt != null){
-                        return number1ConvertedDouble!! - number2ConvertedInt!!
-
+                      val result :Double =  number1ConvertedDouble!! - number2ConvertedInt!!.toDouble()
+                        return result
                     }
                     //SUBTRACTION FOR num1Int and num2Double
                     if(number1ConvertedInt != null && number2ConvertedDouble != null){
-                        return number1ConvertedInt!! - number2ConvertedDouble!!
-
+                       val result :Double =  number1ConvertedInt!!.toDouble() - number2ConvertedDouble!!
+                        return result
                     }
                 }
                 "x"->{
                     //TIMES FOR INTEGERS
                     if(number1ConvertedInt != null && number2ConvertedInt != null){
-                        return number1ConvertedInt!! * number2ConvertedInt!!
-
+                       val result :Int =  number1ConvertedInt!! * number2ConvertedInt!!
+                        return result
                     }
                     //TIMES FOR Doubles
                     if(number1ConvertedDouble != null && number2ConvertedDouble != null){
-                        return number1ConvertedDouble!! * number2ConvertedDouble!!
-
+                       val result :Double =  number1ConvertedDouble!! * number2ConvertedDouble!!
+                        return result
                     }
 
                     //TIMES FOR num1Doub and num2Int
                     if(number1ConvertedDouble != null && number2ConvertedInt != null){
-                        return number1ConvertedDouble!! * number2ConvertedInt!!
-
+                       val result :Double =  number1ConvertedDouble!! * number2ConvertedInt!!.toDouble()
+                        return result
                     }
                     //TIMES FOR num1Int and num2Double
                     if(number1ConvertedInt != null && number2ConvertedDouble != null){
-                        return number1ConvertedInt!! * number2ConvertedDouble!!
-
+                       val result :Double =  number1ConvertedInt!!.toDouble() * number2ConvertedDouble!!
+                        return result
                     }
                 }
                 "/"->{
                     //DIVISION FOR INTEGERS
                     if(number1ConvertedInt != null && number2ConvertedInt != null){
-                        return if (number1ConvertedInt!! / number2ConvertedInt!! == 0){
-                            number1ConvertedInt!!.toDouble() / number2ConvertedInt!!.toDouble()
+                        var result :Number
+                        if (number1ConvertedInt!! / number2ConvertedInt!! == 0){
+                            result = number1ConvertedInt!!.toDouble() / number2ConvertedInt!!.toDouble()
                         }else{
-                            number1ConvertedInt!! / number2ConvertedInt!!
-
+                            result = number1ConvertedInt!! / number2ConvertedInt!!
                         }
+                        return result
                     }
 
                     //DIVISION FOR Doubles
                     if(number1ConvertedDouble != null && number2ConvertedDouble != null){
-                        return number1ConvertedDouble!! / number2ConvertedDouble!!
+                       val result :Double =  number1ConvertedDouble!! / number2ConvertedDouble!!
+                        return result
+
                     }
 
                     //DIVISION FOR num1Doub and num2Int
                     if(number1ConvertedDouble != null && number2ConvertedInt != null){
-                        return number1ConvertedDouble!! / number2ConvertedInt!!
-
+                       val result :Double =  number1ConvertedDouble!! / number2ConvertedInt!!.toDouble()
+                        return result
                     }
                     //DIVISION FOR num1Int and num2Double
                     if(number1ConvertedInt != null && number2ConvertedDouble != null) {
-                        return number1ConvertedInt!! / number2ConvertedDouble!!
+                       val result :Double =  number1ConvertedInt!!.toDouble() / number2ConvertedDouble!!
+                        return result
                     }
                 }
 
             }
-        }else{
-            return 0
-        }
         return null
+    }
+    private fun treatResult(){
+        val resultToString =calculate()?.toString()!!
+        if(resultToString == "0.0"){
+            txtResult.text="0"
+        }else{
+            if(resultToString.endsWith(".0")){
+                txtResult.text= calculate()?.toString()!!.trim('.','0')
+            }else{
+                txtResult.text=resultToString
+            }
+        }
     }
     private fun calculateResult(forcedResult:Boolean=false):String{
         val numbersString :Any
-        lateinit var number1 :String
-        lateinit var number2 :String
 
         when(this.currentOp){
             "+" ->{
                 numbersString = Pattern.compile("\\+").split(txtResult.text)
-                number1 = numbersString[0]
-                number2 = numbersString[1]
-                findRightDataType(number1,number2)
-                txtResult.text=calculate()?.toString()?:"ERROR"
+                settingStringNumbers(numbersString)
             }
             "-" ->{
                 numbersString = Pattern.compile("-").split(txtResult.text)
-                number1 = numbersString[0]
-                number2 = numbersString[1]
-                findRightDataType(number1,number2)
-                txtResult.text=calculate()?.toString()?:"ERROR"
+                settingStringNumbers(numbersString)
             }
             "x" -> {
                 numbersString = Pattern.compile("x").split(txtResult.text)
-                number1 = numbersString[0]
-                number2 = numbersString[1]
-                findRightDataType(number1,number2)
-                txtResult.text=calculate()?.toString()?:"ERROR"
+                settingStringNumbers(numbersString)
             }
             "/" -> {
                 numbersString = Pattern.compile("/").split(txtResult.text)
-                number1 = numbersString[0]
-                number2 = numbersString[1]
-                findRightDataType(number1,number2)
-                txtResult.text=calculate()?.toString()?:"ERROR"
-
+                settingStringNumbers(numbersString)
             }
         }
         if(forcedResult){
@@ -190,8 +201,6 @@ class MainActivity : AppCompatActivity() {
         }else{
             number2ConvertedInt = num2.toIntOrNull()
         }
-
-
     }
     private fun initializeView(){
 
@@ -241,7 +250,9 @@ class MainActivity : AppCompatActivity() {
         }
         //EQUALS
         btn_operations[btn_operations.size-1].setOnClickListener {
-            calculateResult()
+            if(!txtResult.text.contains("+") && !txtResult.text.contains("-") && !txtResult.text.contains("x") && !txtResult.text.contains("/") ){
+                txtResult.text=txtResult.text
+            }else{calculateResult()}
         }
         //the rest of OPs
         for (i in 0 until btn_operations.size-2){
@@ -255,7 +266,7 @@ class MainActivity : AppCompatActivity() {
                 //DELETE
                 if(btn_operations[i].text.equals("<-")){
                     if(isLastCharacterAnOperation() && !txtResult.text.equals("0") && !txtResult.text.equals("") ){
-                        if(txtResult.text.substring(0,txtResult.text.lastIndex).equals("")){
+                        if(txtResult.text.substring(0,txtResult.text.lastIndex) == ""){
                             txtResult.text ="0"
                         }else{
                             txtResult.text=txtResult.text.substring(0,txtResult.text.lastIndex)
@@ -268,29 +279,19 @@ class MainActivity : AppCompatActivity() {
                         when(btn_operations[i].text){
                             "+" ->{
                                 this.currentOp="+"
-                                if(txtResult.text.contains("+") || txtResult.text.contains("-") ||txtResult.text.contains("x") || txtResult.text.contains("/") ){
-                                    calculateResult(true)
-                                }else{txtResult.text="${txtResult.text}${btn_operations[i].text}"}
+                                isForcingOperation(i)
                             }
                             "-" ->{
                                 this.currentOp="-"
-                                if(txtResult.text.contains("+") || txtResult.text.contains("-") ||txtResult.text.contains("x") || txtResult.text.contains("/") ){
-                                    calculateResult(true)
-                                }else{txtResult.text="${txtResult.text}${btn_operations[i].text}"}
+                                isForcingOperation(i)
                             }
                             "x" ->{
                                 this.currentOp="x"
-                                if(txtResult.text.contains("+") || txtResult.text.contains("-") ||txtResult.text.contains("x") || txtResult.text.contains("/") ){
-                                    calculateResult(true)
-                                }else{txtResult.text="${txtResult.text}${btn_operations[i].text}"}
+                                isForcingOperation(i)
                             }
                             "/" ->{
                                 this.currentOp="/"
-                                if(txtResult.text.contains("+") || txtResult.text.contains("-") ||txtResult.text.contains("x") || txtResult.text.contains("/") ){
-                                    calculateResult(true)
-
-                                }else{txtResult.text="${txtResult.text}${btn_operations[i].text}"}
-
+                                isForcingOperation(i)
                             }
                         }
 
