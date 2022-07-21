@@ -25,7 +25,6 @@ class MainActivity : AppCompatActivity() {
             calculateResult(true)
         }else{txtResult.text="${txtResult.text}${btn_operations[i].text}"}
     }
-
     private fun isLastCharacterAnOperation():Boolean{
         var ableToAdd :Boolean = true
         for (op in btn_operations.subList(0,4)){
@@ -154,13 +153,13 @@ class MainActivity : AppCompatActivity() {
             txtResult.text="0"
         }else{
             if(resultToString.endsWith(".0")){
-                txtResult.text= calculate()?.toString()!!.trim('.','0')
+                txtResult.text= resultToString.trim('.','0')
             }else{
                 txtResult.text=resultToString
             }
         }
     }
-    private fun calculateResult(forcedResult:Boolean=false):String{
+    private fun calculateResult(forcedResult:Boolean=false){
         val numbersString :Any
 
         when(this.currentOp){
@@ -184,7 +183,6 @@ class MainActivity : AppCompatActivity() {
         if(forcedResult){
             txtResult.text="${txtResult.text}$currentOp"
         }
-        return ""
     }
     private fun findRightDataType(num1:String,num2:String){
 
@@ -250,7 +248,7 @@ class MainActivity : AppCompatActivity() {
         }
         //EQUALS
         btn_operations[btn_operations.size-1].setOnClickListener {
-            if(!txtResult.text.contains("+") && !txtResult.text.contains("-") && !txtResult.text.contains("x") && !txtResult.text.contains("/") ){
+            if(!txtResult.text.contains("+") || !txtResult.text.contains("-") || !txtResult.text.contains("x")|| !txtResult.text.contains("/") ){
                 txtResult.text=txtResult.text
             }else{calculateResult()}
         }
