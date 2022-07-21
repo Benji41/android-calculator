@@ -42,7 +42,7 @@ class MainActivity : AppCompatActivity() {
         findRightDataType(number1,number2)
         treatResult()
     }
-    private fun calculate() : Number?{
+    private fun calculate() : Any?{
             when(this.currentOp){
                 "+"->{
                     //ADDITION FOR INTEGERS
@@ -148,14 +148,14 @@ class MainActivity : AppCompatActivity() {
         return null
     }
     private fun treatResult(){
-        val resultToString =calculate()?.toString()!!
-        if(resultToString == "0.0"){
+        val resultToString =calculate() as Double
+        if(resultToString.toString() == "0.0"){
             txtResult.text="0"
         }else{
-            if(resultToString.endsWith(".0")){
-                txtResult.text= resultToString.trim('.','0')
+            if(resultToString.toString().endsWith(".0")){
+                txtResult.text= resultToString.toString().trim('.','0')
             }else{
-                txtResult.text=resultToString
+                txtResult.text=resultToString.toString()
             }
         }
     }
@@ -248,9 +248,10 @@ class MainActivity : AppCompatActivity() {
         }
         //EQUALS
         btn_operations[btn_operations.size-1].setOnClickListener {
-            if(!txtResult.text.contains("+") || !txtResult.text.contains("-") || !txtResult.text.contains("x")|| !txtResult.text.contains("/") ){
+            if(!txtResult.text.contains("+") && !txtResult.text.contains("-") && !txtResult.text.contains("x") && !txtResult.text.contains("/") ){
                 txtResult.text=txtResult.text
             }else{calculateResult()}
+
         }
         //the rest of OPs
         for (i in 0 until btn_operations.size-2){
