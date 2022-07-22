@@ -39,15 +39,17 @@
             android:layout_height="match_parent"
             android:layout_margin="6dp"
             android:layout_weight="1"
-            android:text="@string/clear" />
+            android:text="@string/clear"
+            android:textSize="24sp" />
 
         <Button
             android:id="@+id/btnV_opDelete"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1"
             android:layout_margin="6dp"
-            android:text="@string/delete" />
+            android:layout_weight="1"
+            android:text="@string/delete"
+            android:textSize="16sp" />
     </LinearLayout>
 
     <LinearLayout
@@ -62,6 +64,7 @@
             android:layout_height="match_parent"
             android:layout_margin="6dp"
             android:layout_weight="1"
+            android:textSize="24sp"
             android:textStyle="bold" />
 
         <Button
@@ -70,6 +73,7 @@
             android:layout_height="match_parent"
             android:layout_margin="6dp"
             android:layout_weight="1"
+            android:textSize="24sp"
             android:textStyle="bold" />
 
         <Button
@@ -78,6 +82,7 @@
             android:layout_height="match_parent"
             android:layout_margin="6dp"
             android:layout_weight="1"
+            android:textSize="24sp"
             android:textStyle="bold" />
 
         <Button
@@ -87,6 +92,7 @@
             android:layout_margin="6dp"
             android:layout_weight="1"
             android:text="@string/division"
+            android:textSize="20sp"
             app:rippleColor="@color/gray_black" />
 
     </LinearLayout>
@@ -104,6 +110,7 @@
                 android:layout_height="match_parent"
                 android:layout_margin="6dp"
                 android:layout_weight="1"
+                android:textSize="24sp"
                 android:textStyle="bold" />
 
             <Button
@@ -112,6 +119,7 @@
                 android:layout_height="match_parent"
                 android:layout_margin="6dp"
                 android:layout_weight="1"
+                android:textSize="24sp"
                 android:textStyle="bold" />
 
             <Button
@@ -120,6 +128,7 @@
                 android:layout_height="match_parent"
                 android:layout_margin="6dp"
                 android:layout_weight="1"
+                android:textSize="24sp"
                 android:textStyle="bold" />
 
             <Button
@@ -129,6 +138,7 @@
                 android:layout_margin="6dp"
                 android:layout_weight="1"
                 android:text="@string/times"
+                android:textSize="20sp"
                 app:rippleColor="@color/gray_black" />
 
         </LinearLayout>
@@ -145,6 +155,7 @@
                 android:layout_height="match_parent"
                 android:layout_margin="6dp"
                 android:layout_weight="1"
+                android:textSize="24sp"
                 android:textStyle="bold" />
 
             <Button
@@ -153,6 +164,7 @@
                 android:layout_height="match_parent"
                 android:layout_margin="6dp"
                 android:layout_weight="1"
+                android:textSize="24sp"
                 android:textStyle="bold" />
 
             <Button
@@ -161,6 +173,7 @@
                 android:layout_height="match_parent"
                 android:layout_margin="6dp"
                 android:layout_weight="1"
+                android:textSize="24sp"
                 android:textStyle="bold" />
 
             <Button
@@ -170,6 +183,7 @@
                 android:layout_margin="6dp"
                 android:layout_weight="1"
                 android:text="@string/minus"
+                android:textSize="20sp"
                 app:rippleColor="@color/gray_black" />
 
         </LinearLayout>
@@ -184,9 +198,10 @@
                 android:id="@+id/btnV_dot"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
+                android:layout_margin="6dp"
                 android:layout_weight="1"
                 android:text="@string/dot"
-                android:layout_margin="6dp"/>
+                android:textSize="24sp" />
 
             <Button
                 android:id="@+id/btnV_0"
@@ -194,6 +209,7 @@
                 android:layout_height="match_parent"
                 android:layout_margin="6dp"
                 android:layout_weight="1"
+                android:textSize="24sp"
                 android:textStyle="bold" />
 
             <Button
@@ -203,16 +219,18 @@
                 android:layout_margin="6dp"
                 android:layout_weight="1"
                 android:text="@string/addition"
+                android:textSize="20sp"
                 app:rippleColor="@color/gray_black" />
 
         </LinearLayout>
 
-            <Button
-                android:id="@+id/btnV_opEquals"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/equals"
-                android:layout_margin="6dp"/>
+    <Button
+        android:id="@+id/btnV_opEquals"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="6dp"
+        android:layout_weight="1"
+        android:text="@string/equals"
+        android:textSize="48sp" />
 
 </LinearLayout>

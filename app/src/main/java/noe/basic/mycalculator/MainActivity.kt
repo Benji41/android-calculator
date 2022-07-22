@@ -7,8 +7,8 @@ import androidx.appcompat.app.AppCompatActivity
 import java.util.regex.Pattern
 
 class MainActivity : AppCompatActivity() {
-    private val btns_Numbers = ArrayList<Button>(10)
-    private val btn_operations = ArrayList<Button>(7)
+    private val btnNumbers = ArrayList<Button>(10)
+    private val btnOps = ArrayList<Button>(7)
     private lateinit var txtResult :TextView
     private lateinit var currentOp :String
     private var number1ConvertedInt : Int? =null
@@ -20,14 +20,108 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         initializeView()
     }
+    private fun initializeView(){
+
+        btnNumbers.add(findViewById(R.id.btnV_0))
+        btnNumbers.add(findViewById((R.id.btnV_1)))
+        btnNumbers.add(findViewById((R.id.btnV_2)))
+        btnNumbers.add(findViewById((R.id.btnV_3)))
+        btnNumbers.add(findViewById((R.id.btnV_4)))
+        btnNumbers.add(findViewById((R.id.btnV_5)))
+        btnNumbers.add(findViewById((R.id.btnV_6)))
+        btnNumbers.add(findViewById((R.id.btnV_7)))
+        btnNumbers.add(findViewById((R.id.btnV_8)))
+        btnNumbers.add(findViewById((R.id.btnV_9)))
+
+        btnOps.add(findViewById((R.id.btnV_opADD)))
+        btnOps.add(findViewById((R.id.btnV_opMinus)))
+        btnOps.add(findViewById((R.id.btnV_opTimes)))
+        btnOps.add(findViewById((R.id.btnV_opDivide)))
+        btnOps.add(findViewById(R.id.btnV_dot))
+        btnOps.add(findViewById(R.id.btnV_opDelete))
+        btnOps.add(findViewById((R.id.btnV_clear)))
+        btnOps.add(findViewById((R.id.btnV_opEquals)))
+
+        txtResult = findViewById(R.id.txtV_OPERATIONS)
+        txtResult.text ="0"
+
+        for (i in 0 until btnNumbers.size){
+            //TODO u can actually pass values to a string resource instead of creating multiple string resources
+            val numberPressed =  getString(R.string.pressed_number, i)
+            btnNumbers[i].text=numberPressed
+            btnNumbers[i].setOnClickListener(){
+                if(txtResult.text.equals("0")){
+                    txtResult.text =numberPressed
+                }else{
+                    txtResult.text="${txtResult.text}$numberPressed"
+                }
+            }
+        }
+        //CLEAR
+        btnOps[btnOps.size-2].setOnClickListener{
+            this.txtResult.text="0"
+        }
+        //EQUALS
+        btnOps[btnOps.size-1].setOnClickListener {
+            if(txtResult.text.contains("+") || txtResult.text.contains("-") || txtResult.text.contains("x") || txtResult.text.contains("/") ){
+                calculateResult()
+            }
+        }
+        //the rest of OPs
+        for (i in 0 until btnOps.size-2){
+            btnOps[i].setOnClickListener {
+                //DOT
+                if(btnOps[i].text.equals(".")){
+                    if(isLastCharacterAnOperation() && !txtResult.text.endsWith(".") ){
+                        txtResult.text="${txtResult.text}."
+                    }
+                }
+                //DELETE
+                if(btnOps[i].text.equals("<-")){
+                    if(isLastCharacterAnOperation() && !txtResult.text.equals("0") && !txtResult.text.equals("") ){
+                        if(txtResult.text.substring(0,txtResult.text.lastIndex) == ""){
+                            txtResult.text ="0"
+                        }else{
+                            txtResult.text=txtResult.text.substring(0,txtResult.text.lastIndex)
+                        }
+                    }
+                }else{
+                    //ARITHMETIC OPs
+                    if(isLastCharacterAnOperation()){
+                        //TODO aqui se pudo haber utilizado string array
+                        when(btnOps[i].text){
+                            "+" ->{
+                                this.currentOp="+"
+                                isForcingOperation(i)
+                            }
+                            "-" ->{
+                                this.currentOp="-"
+                                isForcingOperation(i)
+                            }
+                            "x" ->{
+                                this.currentOp="x"
+                                isForcingOperation(i)
+                            }
+                            "/" ->{
+                                this.currentOp="/"
+                                isForcingOperation(i)
+                            }
+                        }
+
+                    }
+                }
+
+            }
+        }
+    }
     private fun isForcingOperation(i:Int){
         if(txtResult.text.contains("+") || txtResult.text.contains("-") ||txtResult.text.contains("x") || txtResult.text.contains("/") ){
             calculateResult(true)
-        }else{txtResult.text="${txtResult.text}${btn_operations[i].text}"}
+        }else{if(!txtResult.text.endsWith("."))txtResult.text="${txtResult.text}${btnOps[i].text}"}
     }
     private fun isLastCharacterAnOperation():Boolean{
-        var ableToAdd :Boolean = true
-        for (op in btn_operations.subList(0,4)){
+        var ableToAdd = true
+        for (op in btnOps.subList(0,4)){
             if(txtResult.text.endsWith(op.text)){
                 ableToAdd = false
             }
@@ -35,12 +129,26 @@ class MainActivity : AppCompatActivity() {
         return ableToAdd
     }
     private fun settingStringNumbers(arr:Array<String>){
-        lateinit var number1 :String
-        lateinit var number2 :String
-        number1 = arr[0]
-        number2 = arr[1]
+        val number1 :String = arr[0]
+        val number2 :String = arr[1]
         findRightDataType(number1,number2)
         treatResult()
+    }
+    private fun findRightDataType(num1:String,num2:String){
+
+        if(num1.contains(".")){
+            number1ConvertedDouble = num1.toDoubleOrNull()
+
+        }else{
+            number1ConvertedInt = num1.toIntOrNull()
+
+        }
+        if(num2.contains(".")){
+            number2ConvertedDouble = num2.toDoubleOrNull()
+
+        }else{
+            number2ConvertedInt = num2.toIntOrNull()
+        }
     }
     private fun calculate() : Any?{
             when(this.currentOp){
@@ -58,12 +166,12 @@ class MainActivity : AppCompatActivity() {
 
                     //ADDITION FOR num1Doub and num2Int
                     if(number1ConvertedDouble != null && number2ConvertedInt != null){
-                       val result :Double =  number1ConvertedDouble!! + number2ConvertedInt!!.toDouble()
+                       val result :Double =  number1ConvertedDouble!! + number2ConvertedInt!!
                         return result
                     }
                     //ADDITION FOR num1Int and num2Double
                     if(number1ConvertedInt != null && number2ConvertedDouble != null){
-                       val result :Double =  number1ConvertedInt!!.toDouble() + number2ConvertedDouble!!
+                       val result :Double =  number1ConvertedInt!! + number2ConvertedDouble!!
                         return result
                     }
                 }
@@ -81,7 +189,7 @@ class MainActivity : AppCompatActivity() {
 
                     //SUBTRACTION FOR num1Doub and num2Int
                     if(number1ConvertedDouble != null && number2ConvertedInt != null){
-                      val result :Double =  number1ConvertedDouble!! - number2ConvertedInt!!.toDouble()
+                      val result :Double =  number1ConvertedDouble!! - number2ConvertedInt!!
                         return result
                     }
                     //SUBTRACTION FOR num1Int and num2Double
@@ -104,7 +212,7 @@ class MainActivity : AppCompatActivity() {
 
                     //TIMES FOR num1Doub and num2Int
                     if(number1ConvertedDouble != null && number2ConvertedInt != null){
-                       val result :Double =  number1ConvertedDouble!! * number2ConvertedInt!!.toDouble()
+                       val result :Double =  number1ConvertedDouble!! * number2ConvertedInt!!
                         return result
                     }
                     //TIMES FOR num1Int and num2Double
@@ -134,7 +242,7 @@ class MainActivity : AppCompatActivity() {
 
                     //DIVISION FOR num1Doub and num2Int
                     if(number1ConvertedDouble != null && number2ConvertedInt != null){
-                       val result :Double =  number1ConvertedDouble!! / number2ConvertedInt!!.toDouble()
+                       val result :Double =  number1ConvertedDouble!! / number2ConvertedInt!!
                         return result
                     }
                     //DIVISION FOR num1Int and num2Double
@@ -148,7 +256,7 @@ class MainActivity : AppCompatActivity() {
         return null
     }
     private fun treatResult(){
-        val resultToString =calculate() as Double
+        val resultToString =calculate() as Number
         if(resultToString.toString() == "0.0"){
             txtResult.text="0"
         }else{
@@ -158,146 +266,28 @@ class MainActivity : AppCompatActivity() {
                 txtResult.text=resultToString.toString()
             }
         }
+        this.number1ConvertedInt = null
+        this.number2ConvertedInt = null
+        this.number1ConvertedDouble = null
+        this.number2ConvertedInt = null
     }
     private fun calculateResult(forcedResult:Boolean=false){
-        val numbersString :Any
-
         when(this.currentOp){
             "+" ->{
-                numbersString = Pattern.compile("\\+").split(txtResult.text)
-                settingStringNumbers(numbersString)
+                settingStringNumbers(Pattern.compile("\\+").split(txtResult.text))
             }
             "-" ->{
-                numbersString = Pattern.compile("-").split(txtResult.text)
-                settingStringNumbers(numbersString)
+                settingStringNumbers(Pattern.compile("-").split(txtResult.text))
             }
             "x" -> {
-                numbersString = Pattern.compile("x").split(txtResult.text)
-                settingStringNumbers(numbersString)
+                settingStringNumbers(Pattern.compile("x").split(txtResult.text))
             }
             "/" -> {
-                numbersString = Pattern.compile("/").split(txtResult.text)
-                settingStringNumbers(numbersString)
+                settingStringNumbers(Pattern.compile("/").split(txtResult.text))
             }
         }
         if(forcedResult){
             txtResult.text="${txtResult.text}$currentOp"
-        }
-    }
-    private fun findRightDataType(num1:String,num2:String){
-
-        if(num1.contains(".")){
-            number1ConvertedDouble = num1.toDoubleOrNull()
-
-        }else{
-            number1ConvertedInt = num1.toIntOrNull()
-
-        }
-        if(num2.contains(".")){
-            number2ConvertedDouble = num2.toDoubleOrNull()
-
-        }else{
-            number2ConvertedInt = num2.toIntOrNull()
-        }
-    }
-    private fun initializeView(){
-
-        btns_Numbers.add(findViewById(R.id.btnV_0))
-        btns_Numbers.add(findViewById((R.id.btnV_1)))
-        btns_Numbers.add(findViewById((R.id.btnV_2)))
-        btns_Numbers.add(findViewById((R.id.btnV_3)))
-        btns_Numbers.add(findViewById((R.id.btnV_4)))
-        btns_Numbers.add(findViewById((R.id.btnV_5)))
-        btns_Numbers.add(findViewById((R.id.btnV_6)))
-        btns_Numbers.add(findViewById((R.id.btnV_7)))
-        btns_Numbers.add(findViewById((R.id.btnV_8)))
-        btns_Numbers.add(findViewById((R.id.btnV_9)))
-
-        btn_operations.add(findViewById((R.id.btnV_opADD)))
-        btn_operations.add(findViewById((R.id.btnV_opMinus)))
-        btn_operations.add(findViewById((R.id.btnV_opTimes)))
-        btn_operations.add(findViewById((R.id.btnV_opDivide)))
-        btn_operations.add(findViewById(R.id.btnV_dot))
-        btn_operations.add(findViewById(R.id.btnV_opDelete))
-        btn_operations.add(findViewById((R.id.btnV_clear)))
-        btn_operations.add(findViewById((R.id.btnV_opEquals)))
-
-        txtResult = findViewById(R.id.txtV_OPERATIONS)
-        txtResult.text ="0"
-
-        for (i in 0 until btns_Numbers.size){
-            //TODO u can actually pass values to a string resource instead of creating multiple string resources
-            val numberPressed =  getString(R.string.pressed_number, i)
-            btns_Numbers[i].text=numberPressed
-            btns_Numbers[i].setOnClickListener(){
-                if(txtResult.text.equals("0")){
-                    txtResult.text =numberPressed
-                }else{
-                    if(txtResult.text.substring(0,txtResult.text.length) == "0"){
-                        txtResult.text=txtResult.text.substring(0,txtResult.text.lastIndex)+numberPressed
-                    }else{
-                        txtResult.text="${txtResult.text}$numberPressed"
-                    }
-
-                }
-            }
-        }
-        //CLEAR
-        btn_operations[btn_operations.size-2].setOnClickListener{
-            this.txtResult.text="0"
-        }
-        //EQUALS
-        btn_operations[btn_operations.size-1].setOnClickListener {
-            if(!txtResult.text.contains("+") && !txtResult.text.contains("-") && !txtResult.text.contains("x") && !txtResult.text.contains("/") ){
-                txtResult.text=txtResult.text
-            }else{calculateResult()}
-
-        }
-        //the rest of OPs
-        for (i in 0 until btn_operations.size-2){
-            btn_operations[i].setOnClickListener {
-                //DOT
-                if(btn_operations[i].text.equals(".")){
-                    if(isLastCharacterAnOperation()){
-                        txtResult.text="${txtResult.text}."
-                    }
-                }
-                //DELETE
-                if(btn_operations[i].text.equals("<-")){
-                    if(isLastCharacterAnOperation() && !txtResult.text.equals("0") && !txtResult.text.equals("") ){
-                        if(txtResult.text.substring(0,txtResult.text.lastIndex) == ""){
-                            txtResult.text ="0"
-                        }else{
-                            txtResult.text=txtResult.text.substring(0,txtResult.text.lastIndex)
-                        }
-                    }
-                }else{
-                    //ARITHMETIC OPs
-                    if(isLastCharacterAnOperation()){
-                        //TODO aqui se pudo haber utilizado string array
-                        when(btn_operations[i].text){
-                            "+" ->{
-                                this.currentOp="+"
-                                isForcingOperation(i)
-                            }
-                            "-" ->{
-                                this.currentOp="-"
-                                isForcingOperation(i)
-                            }
-                            "x" ->{
-                                this.currentOp="x"
-                                isForcingOperation(i)
-                            }
-                            "/" ->{
-                                this.currentOp="/"
-                                isForcingOperation(i)
-                            }
-                        }
-
-                    }
-                }
-
-            }
         }
     }
 }
